@@ -94,25 +94,28 @@ namespace CERandomizer
                 {
                     randomInitialization = true;
                     // Randomize database as needed
-                    if (RandomizerOptions.AddTier1Weapons > 0)
+                    if (RandomGen.Seed != 0)
                     {
-                        CoreRandomizer.AddTier1Weapons();
-                    }
-                    if (RandomizerOptions.RandomizeCharacterEquipment > 0)
-                    {
-                        CoreRandomizer.RandomizeCharacterWeaponTypes();
-                    }
-                    if (RandomizerOptions.RandomizeCharacterSkills > 0)
-                    {
-                        CoreRandomizer.RandomizeCharacterSkills();
-                    }
-                    if (RandomizerOptions.RandomizeCharacterPassives > 0)
-                    {
-                        CoreRandomizer.RandomizeCharacterPassives();
-                    }
-                    if (RandomizerOptions.RandomizeCharacterStatBoosts > 0)
-                    {
-                        CoreRandomizer.RandomizeCharacterStatBoosts();
+                        if (RandomizerOptions.AddTier1Weapons > 0)
+                        {
+                            CoreRandomizer.AddTier1Weapons();
+                        }
+                        if (RandomizerOptions.RandomizeCharacterEquipment > 0)
+                        {
+                            CoreRandomizer.RandomizeCharacterWeaponTypes();
+                        }
+                        if (RandomizerOptions.RandomizeCharacterSkills > 0)
+                        {
+                            CoreRandomizer.RandomizeCharacterSkills();
+                        }
+                        if (RandomizerOptions.RandomizeCharacterPassives > 0)
+                        {
+                            CoreRandomizer.RandomizeCharacterPassives();
+                        }
+                        if (RandomizerOptions.RandomizeCharacterStatBoosts > 0)
+                        {
+                            CoreRandomizer.RandomizeCharacterStatBoosts();
+                        }
                     }
                 }
 
