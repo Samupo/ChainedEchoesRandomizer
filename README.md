@@ -1,5 +1,5 @@
 # ChainedEchoesRandomizer
-Archipelago compatible randomizer for Chained Echoes
+Archipelago compatible (planned feature) randomizer for Chained Echoes
 
 INSTALLATION
 
