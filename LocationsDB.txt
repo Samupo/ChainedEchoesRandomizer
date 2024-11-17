@@ -326,3 +326,13 @@ Chest,fw_3_2_1,fw_3_2_1,Not Missable
 Chest,fw_3_2_2,fw_3_2_2,Not Missable
 Chest,fw_3_2_4,fw_3_2_4,Not Missable
 Chest,fw_3_2_5,fw_3_2_5,Not Missable
+Board,Board54,Board54,Not Missable
+Chest,ffp_1_2_2,ffp_1_2_2,Not Missable
+Chest,ffp_1_2_3,ffp_1_2_3,Not Missable
+Chest,ffpburied_1_2,ffpburied_1_2,Not Missable
+Chest,ffp_2_2_4,ffp_2_2_4,Not Missable
+Chest,ffp_2_2_3,ffp_2_2_3,Not Missable
+Chest,ffp_1_2_4,ffp_1_2_4,Not Missable
+Board,Board97,Board97,Not Missable
+Board,Board77,Board77,Not Missable
+Board,Board57,Board57,Not Missable
