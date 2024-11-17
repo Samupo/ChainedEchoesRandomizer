@@ -1,0 +1,93 @@
+Glenn Skills,GlennSkill,16,CharacterSkill,Progression
+Glenn Passives,GlennPassive,16,CharacterPassive,Progression
+Glenn StatBoosts,GlennStatBoost,16,CharacterStatBoost,Progression
+Kylian Skills,KylianSkill,8,CharacterSkill,Progression
+Kylian Passives,KylianPassive,8,Progression
+Kylian StatBoosts,KylianStatBoost,8,Progression
+Lenne Skills,LenneSkill,16,CharacterSkill,Progression
+Lenne Passives,LennePassive,16,CharacterPassive,Progression
+Lenne StatBoosts,LenneStatBoost,16,CharacterStatBoost,Progression
+Robb Skills,RobbSkill,16,CharacterSkill,Progression
+Robb Passives,RobbPassive,16,CharacterPassive,Progression
+Robb StatBoosts,RobbStatBoost,16,CharacterStatBoost,Progression
+Victor Skills,VictorSkill,16,CharacterSkill,Progression
+Victor Passives,VictorPassive,16,CharacterPassive,Progression
+Victor StatBoosts,VictorStatBoost,16,CharacterStatBoost,Progression
+Sienna Skills,SiennaSkill,16,CharacterSkill,Progression
+Sienna Passives,SiennaPassive,16,CharacterPassive,Progression
+Sienna StatBoosts,SiennaStatBoost,16,CharacterStatBoost,Progression
+Amalia Skills,AmaliaSkill,16,CharacterSkill,Progression
+Amalia Passives,AmaliaPassive,16,CharacterPassive,Progression
+Amalia StatBoosts,AmaliaStatBoost,16,CharacterStatBoost,Progression
+Egyl Skills,EgylSkill,16,CharacterSkill,Progression
+Egyl Passives,EgylPassive,16,CharacterPassive,Progression
+Egyl StatBoosts,EgylStatBoost,16,CharacterStatBoost,Progression
+Ba’Thraz Skills,BaThrazSkill,16,CharacterSkill,Progression
+Ba’Thraz Passives,BaThrazPassive,16,CharacterPassive,Progression
+Ba’Thraz StatBoosts,BaThrazStatBoost,16,CharacterStatBoost,Progression
+Tomke Skills,TomkeSkill,16,CharacterSkill,Progression
+Tomke Passives,TomkePassive,16,CharacterPassive,Progression
+Tomke StatBoosts,TomkeStatBoost,16,CharacterStatBoost,Progression
+Mikah Skills,MikahSkill,16,CharacterSkill,Progression
+Mikah Passives,MikahPassive,16,CharacterPassive,Progression
+Mikah StatBoosts,MikahStatBoost,16,CharacterStatBoost,Progression
+Raphael Skills,RaphaelSkill,16,CharacterSkill,Progression
+Raphael Passives,RaphaelPassive,16,CharacterPassive,Progression
+Raphael StatBoosts,RaphaelStatBoost,16,CharacterStatBoost,Progression
+Magnolia Skills,MagnoliaSkill,16,CharacterSkill,Progression
+Magnolia Passives,MagnoliaPassive,16,CharacterPassive,Progression
+Magnolia StatBoosts,MagnoliaStatBoost,16,CharacterStatBoost,Progression
+Sword,Sword,8,Equipment,Useful
+Spear,Spear,8,Equipment,Useful
+Bow,Bow,8,Equipment,Useful
+Rapier,Rapier,8,Equipment,Useful
+Gun,Gun,6,Equipment,Useful
+Amulet,Amulet,7,Equipment,Useful
+Gunspear,Gunspear,3,Equipment,Useful
+Katana,Katana,8,Equipment,Useful
+Greatsword,Greatsword,5,Equipment,Useful
+Anchor,Anchor,6,Equipment,Useful
+Cestus,Cestus,4,Equipment,Useful
+Cards,Cards,9,Equipment,Useful
+Light Armor Set 1,LightArmor,8,Equipment,Useful
+Heavy Armor Set 1,HeavyArmor,8,Equipment,Useful
+Clothes Set 1,Clothes,8,Equipment,Useful
+Robe Set 1,Robe,8,Equipment,Useful
+Light Armor Set 2,LightArmor2,8,Equipment,Useful
+Heavy Armor Set 2,HeavyArmor2,8,Equipment,Useful
+Clothes Set 2,Clothes2,8,Equipment,Useful
+Robe Set 2,Robe2,8,Equipment,Useful
+Merlin,Merlin,5,MechEquipment,Useful
+Kerberos,Kerberos,5,MechEquipment,Useful
+Agamemnon,Agamemnon,5,MechEquipment,Useful
+Ovelia,Ovelia,5,MechEquipment,Useful
+Paris,Paris,5,MechEquipment,Useful
+Mech Sword & Shield,MechSword,5,MechEquipment,Useful
+Mech Hammer & Shield,MechHammer,5,MechEquipment,Useful
+Mech Greatsword,MechGreatsword,5,MechEquipment,Useful
+Mech Glaive,MechGlaive,5,MechEquipment,Useful
+Mech Bowgun,MechBowgun,5,MechEquipment,Useful
+Mech Ether Cannon,MechEther,5,MechEquipment,Useful
+Mech Suppor Drones,MechSupport,5,MechEquipment,Useful
+Mech Elemental Cannon,MechElemental,5,MechEquipment,Useful
+Mech Offensive Drones,MechOffensive,5,MechEquipment,Useful
+Emblem Arithmetician,EmblemArithmetician,0,ClassEmblem,Useful
+Emblem Gambler,EmblemGambler,0,ClassEmblem,Useful
+Emblem Summoner,EmblemSummoner,0,ClassEmblem,Useful
+Emblem Cleric,EmblemCleric,0,ClassEmblem,Useful
+Emblem Occultist,EmblemOccultist,0,ClassEmblem,Useful
+Emblem Monk,EmblemMonk,0,ClassEmblem,Useful
+Emblem Shadow Knight,EmblemShadowKnight,0,ClassEmblem,Useful
+Emblem Bandit,EmblemBandit,0,ClassEmblem,Useful
+Emblem Mage Warrior,EmblemMageWarrior,0,ClassEmblem,Useful
+Emblem Holy Knight,EmblemHolyKnight,0,ClassEmblem,Useful
+Emblem Vampire,EmblemVampire,0,ClassEmblem,Useful
+Emblem Warrior,EmblemWarrior,0,ClassEmblem,Useful
+Emblem Rune Knight,EmblemRuneKnight,0,ClassEmblem,Useful
+Emblem Shaman,EmblemShaman,0,ClassEmblem,Useful
+Emblem Pyromancer,EmblemPyromancer,0,ClassEmblem,Useful
+Emblem Viking,EmblemViking,0,ClassEmblem,Useful
+Emblem Dancer,EmblemDancer,0,ClassEmblem,Useful
+Emblem Chemist,EmblemChemist,0,ClassEmblem,Useful
+
+

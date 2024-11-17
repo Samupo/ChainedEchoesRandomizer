@@ -1,0 +1,1 @@
+To compile, dependencies generated in BepinEx/interop should be put here.
