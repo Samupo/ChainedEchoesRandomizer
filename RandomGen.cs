@@ -6,11 +6,17 @@ namespace CERandomizer
 	{
         private static Random random;
 
+		private static int seed;
 		public static int Seed
 		{
+			get
+			{
+				return seed;
+			}
 			set
 			{
 				random = new Random(value);
+				seed = value;
 			}
 		}
 

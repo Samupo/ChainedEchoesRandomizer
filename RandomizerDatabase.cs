@@ -10,29 +10,29 @@ namespace CERandomizer
         public static readonly Dictionary<string, List<int>> ItemIDs = new Dictionary<string, List<int>>
         {
             // Weapon Progression
-            { "Sword", new List<int>{ 1, 2, 3, 4, 5, 6, 7, 8 } }, // Tier 2 to 9
-            { "Spear", new List<int>{ 13, 14, 15, 16, 17, 18, 19, 20 } }, // Tier 2 to 9
-            { "Bow", new List<int>{ 25, 26, 27, 28, 29, 30, 31, 32 } }, // Tier 2 to 9
-            { "Rapier", new List<int>{ 37, 38, 39, 40, 41, 42, 43, 44 } }, // Tier 2 to 9
-            { "Gun", new List<int>{ 48, 49, 50, 51, 52, 53 } }, // Tier 4 to 9
-            { "Amulet", new List<int>{ 57, 58, 59, 60, 61, 62, 63  } }, // Tier 3 to 9
-            { "Gunspear", new List<int>{ 69, 70, 71} }, // Tier 7 to 9
-            { "Katana", new List<int>{ 77, 78, 79, 80, 81, 82, 83, 84 } }, // Tier 2 to 9
-            { "Greatsword", new List<int>{ 89, 90, 91, 92, 93} }, // Tiers 1-3 and 8-9
-            { "Anchor", new List<int>{ 105, 106, 107, 108, 109, 110} }, // Tiers 4 to 9
-            { "Cestus", new List<int>{ 97, 98, 99, 100 } }, // Tiers 6 to 9
-            { "Cards", new List<int>{ 114, 115 } }, // Tiers 8 to 9
+            { "Sword", new List<int>{ 1, 2, 3, 4, 5, 6, 7, 8, 9 } }, // Tier 2 to 10
+            { "Spear", new List<int>{ 13, 14, 15, 16, 17, 18, 19, 20, 21 } }, // Tier 2 to 10
+            { "Bow", new List<int>{ 25, 26, 27, 28, 29, 30, 31, 32, 33 } }, // Tier 2 to 10
+            { "Rapier", new List<int>{ 37, 38, 39, 40, 41, 42, 43, 44, 45 } }, // Tier 2 to 10
+            { "Gun", new List<int>{ 48, 49, 50, 51, 52, 53, 54 } }, // Tier 4 to 10
+            { "Amulet", new List<int>{ 57, 58, 59, 60, 61, 62, 63, 64  } }, // Tier 3 to 10
+            { "Gunspear", new List<int>{ 69, 70, 71, 72} }, // Tier 7 to 10
+            { "Katana", new List<int>{ 77, 78, 79, 80, 81, 82, 83, 84, 85 } }, // Tier 2 to 10
+            { "Greatsword", new List<int>{ 89, 90, 91, 92, 93, 94} }, // Tiers 1-3 and 8-10
+            { "Anchor", new List<int>{ 105, 106, 107, 108, 109, 110, 111} }, // Tiers 4 to 10
+            { "Claw", new List<int>{ 97, 98, 99, 100, 101 } }, // Tiers 6 to 10
+            { "Cards", new List<int>{ 114, 115, 116 } }, // Tiers 8 to 10
 
             // Armor progression
-            { "LightArmor", new List<int>{121,122,123,124,125,126,127,128} }, // Tiers 2 to 9
-            { "HeavyArmor", new List<int>{133,134,135,136,137,138,139,140} }, // Tiers 2 to 9
-            { "Clothes", new List<int>{145,146,147,148,149,150,151,152} }, // Tiers 2 to 9
-            { "Robe", new List<int>{157,158,159,160,161,162,163,164} }, // Tiers 2 to 9
+            { "Light Armor", new List<int>{121,122,123,124,125,126,127,128,129} }, // Tiers 2 to 10
+            { "Heavy Armor", new List<int>{133,134,135,136,137,138,139,140,141} }, // Tiers 2 to 10
+            { "Clothes", new List<int>{145,146,147,148,149,150,151,152,152,153} }, // Tiers 2 to 10
+            { "Robe", new List<int>{157,158,159,160,161,162,163,164,165} }, // Tiers 2 to 10
             // Second armor set
-            { "LightArmor2", new List<int>{121,122,123,124,125,126,127,128} }, // Tiers 2 to 9
-            { "HeavyArmor2", new List<int>{133,134,135,136,137,138,139,140} }, // Tiers 2 to 9
-            { "Clothes2", new List<int>{145,146,147,148,149,150,151,152} }, // Tiers 2 to 9
-            { "Robe2", new List<int>{157,158,159,160,161,162,163,164} }, // Tiers 2 to 9
+            { "Light Armor 2", new List<int>{121,122,123,124,125,126,127,128,129} }, // Tiers 2 to 9
+            { "Heavy Armor 2", new List<int>{133,134,135,136,137,138,139,140,141} }, // Tiers 2 to 9
+            { "Clothes 2", new List<int>{145,146,147,148,149,150,151,152,153} }, // Tiers 2 to 9
+            { "Robe 2", new List<int>{157,158,159,160,161,162,163,164,165} }, // Tiers 2 to 9
 
             // Mech bodies
             { "Paris", new List<int>{401,402,403,404,405} }, // Tiers 2 to 6
@@ -51,11 +51,49 @@ namespace CERandomizer
             { "MechSupport", new List<int>{299, 300, 301, 302, 303} }, // Tiers 2 to 6
             { "MechElemental", new List<int>{307, 308, 309, 310, 311} }, // Tiers 2 to 6
             { "MechOffensive", new List<int>{315, 316, 317, 318, 319} }, // Tiers 2 to 6
+
+            // Key items
+            { "Sacred Water", new List<int>{405} },
+            {"Key Card A", new List<int>{410} },
+            {"Key Card B", new List<int>{411} },
+            {"Key Card C", new List<int>{412} },
+            {"Key Card D", new List<int>{413} },
+            {"Bronze Key", new List<int>{414} },
+            {"Silver Key", new List<int>{415} },
+            {"Gold Key", new List<int>{416} },
+            {"Charon's Coin Bag", new List<int>{421} },
+            {"Elevator Key", new List<int>{422} },
+            {"Miner's Key", new List<int>{423} },
+            {"Church Key", new List<int>{425} },
+            {"Norgant's Key", new List<int>{426} },
+            {"Manor Key", new List<int>{429} },
+            {"Water Handle", new List<int>{452} },
+
+            // Class Emblem
+            //{"EmblemArithmetician", new List<int>{ } },
+            {"EmblemGambler", new List<int>{15 } },
+            {"EmblemSummoner", new List<int>{16 } },
+            {"EmblemCleric", new List<int>{17 } },
+            //{"EmblemOccultist", new List<int>{ } },
+            {"EmblemMonk", new List<int>{19 } },
+            //{"EmblemShadowKnight", new List<int>{ } },
+            {"EmblemBandit", new List<int>{21 } },
+            {"EmblemMageWarrior", new List<int>{22 } },
+            //{"EmblemHolyKnight", new List<int>{ } },
+            {"EmblemVampire", new List<int>{24 } },
+            {"EmblemWarrior", new List<int>{25 } },
+            {"EmblemRuneKnight", new List<int>{26 } },
+            {"EmblemShaman", new List<int>{27 } },
+            {"EmblemPyromancer", new List<int>{28 } },
+            //{"EmblemViking", new List<int>{ } },
+            //{"EmblemDancer", new List<int>{ } },
+            {"EmblemChemist", new List<int>{31 } },
+
         };
 
         public class Location
         {
-            public enum LocationType { Chest, Boss, Emblem, Deal, Board, ChainBoard }
+            public enum LocationType { Chest, Boss, Emblem, Deal, Board, ChainBoard, Upgrade }
 
             public struct ItemRequirement
             {
@@ -65,17 +103,21 @@ namespace CERandomizer
                 public ItemRequirement(string itemName, int itemCount) => (ItemName, ItemCount) = (itemName, itemCount);
             }
 
+            public long ID { get;private set; }
             public string UserFriendlyName { get; private set; }
             public string InternalName { get; private set; }
             public bool Missable { get; private set; }
             public List<ItemRequirement> RequiredItems { get; private set; } = new List<ItemRequirement>();
             public Item AssignedItem { get; set; }
+            public LocationType Type { get; private set; }
 
-            public Location(string userFriendlyName, string internalName, bool missable)
+            public Location(long id, string userFriendlyName, string internalName, bool missable, LocationType type)
             {
+                ID = id;
                 UserFriendlyName = userFriendlyName;
                 InternalName = internalName;
                 Missable = missable;
+                Type = type;
             }
 
             public void AddRequirement(string itemName, int count)
@@ -102,14 +144,11 @@ namespace CERandomizer
             public string InternalName { get; private set; }
             public ItemClassification Classification { get; private set; }
             public ItemType Type { get; private set; }
-            public int ProgressiveCount { get; private set; }
-            public bool IsProgressive => ProgressiveCount > 1;
 
-            public Item(string userFriendlyName, string internalName, int progressiveCount, ItemClassification classification, ItemType type)
+            public Item(string userFriendlyName, string internalName, ItemClassification classification, ItemType type)
             {
                 UserFriendlyName = userFriendlyName;
                 InternalName = internalName;
-                ProgressiveCount = progressiveCount;
                 Classification = classification;
                 Type = type;
             }
@@ -131,17 +170,20 @@ namespace CERandomizer
             using (var reader = new StreamReader(LOCATIONS_FILE))
             {
                 string line;
+                long locationID = 0;
                 while ((line = reader.ReadLine()) != null)
                 {
+                    if (line.StartsWith("//")) continue;
                     var data = line.Split(',');
                     if (data.Length < 4) continue;
 
                     Enum.TryParse(data[0], out Location.LocationType locationType);
-                    var location = new Location(data[1], data[2], data[3] == "Missable");
+                    var location = new Location(locationID, data[1], data[2], data[3] == "Missable", locationType);
+                    locationID++;
 
                     if (glennStatBoostRequirement > 0)
                     {
-                        location.AddRequirement("GlennStatBoost", glennStatBoostRequirement);
+                        // location.AddRequirement("GlennStatBoost", glennStatBoostRequirement);
                     }
 
                     if (locationType == Location.LocationType.Boss && !location.Missable)
@@ -161,6 +203,7 @@ namespace CERandomizer
                 string line;
                 while ((line = reader.ReadLine()) != null)
                 {
+                    if (line.StartsWith("//")) continue;
                     var data = line.Split(',');
                     if (data.Length < 5) continue;
 
@@ -168,7 +211,7 @@ namespace CERandomizer
                     Enum.TryParse(data[3], out Item.ItemType itemType);
                     Enum.TryParse(data[4], out Item.ItemClassification classification);
 
-                    var item = new Item(data[0], data[1], progressiveCount, classification, itemType);
+                    var item = new Item(data[0], data[1], classification, itemType);
                     items.Add(item);
                 }
             }
@@ -176,23 +219,19 @@ namespace CERandomizer
 
         public static bool Randomize()
         {
-            UnityEngine.Debug.Log("Attempting randomization...");
             var shuffledLocations = locations.OrderBy(_ => RandomGen.Next()).ToList();
 
             var progressionItems = items
                     .Where(i => i.Classification == Item.ItemClassification.Progression)
-                    .SelectMany(i => Enumerable.Repeat(i, i.ProgressiveCount > 1 ? i.ProgressiveCount : 1))
                     .ToList();
 
             var usefulItems = items
                     .Where(i => i.Classification == Item.ItemClassification.Useful)
-                    .SelectMany(i => Enumerable.Repeat(i, i.ProgressiveCount > 1 ? i.ProgressiveCount : 1))
                     .OrderBy(_ => RandomGen.Next())
                     .ToList();
 
             var fillerItems = items
                     .Where(i => i.Classification == Item.ItemClassification.Filler)
-                    .SelectMany(i => Enumerable.Repeat(i, i.ProgressiveCount > 1 ? i.ProgressiveCount : 1))
                     .ToList();
 
             ResetAssignments();
@@ -204,17 +243,6 @@ namespace CERandomizer
             if (ValidateProgression())
             {
                 Randomized = true;
-                foreach (Location location in locations)
-                {
-                    if (location.AssignedItem != null)
-                    {
-                        UnityEngine.Debug.Log("[DEBUG RANDOMIZER] " + location.UserFriendlyName + " has " + location.AssignedItem.UserFriendlyName);
-                    }
-                    else
-                    {
-                        UnityEngine.Debug.Log("[DEBUG RANDOMIZER] " + location.UserFriendlyName + " doesn't have anything");
-                    }
-                }
                 return true;
             }
             else

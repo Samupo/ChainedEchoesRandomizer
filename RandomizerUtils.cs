@@ -66,9 +66,29 @@ public static class RandomizerUtils
         }
     }
 
+    public static void ResetPartyMemberLevel(int memberID)
+    {
+        int level = 0;
+        foreach (SkillItem skill in GetData.GetSkills())
+        {
+            if (skill.skillUser == memberID)
+            {
+                level++;
+            }
+        }
+        foreach (StatBoost boost in GetData.GetStatBoosts())
+        {
+            if (boost.user == memberID && boost.learned)
+            {
+                level++;
+            }
+        }
+        GameFunctions.SetPartyMemberLevel(memberID, level);
+    }
+
     public static bool UnlockItem(RandomizerDatabase.Item item, string sender = "")
     {
-        UnityEngine.Debug.Log("Unlocking item " + item.InternalName + " [" + item.Type + "]");
+        Console.WriteLine("Unlocking item " + item.InternalName + " [" + item.Type + "]");
         switch (item.Type)
         {
             case RandomizerDatabase.Item.ItemType.CharacterSkill:
@@ -87,7 +107,7 @@ public static class RandomizerUtils
 
                     if (memberID == -1)
                     {
-                        UnityEngine.Debug.LogError("Member not found for item " + item.InternalName);
+                        Console.WriteLine("Member not found for item " + item.InternalName);
                         return false;
                     }
                     while (HasLocationBeenCompleted(item.InternalName + current)) current++;
@@ -112,7 +132,7 @@ public static class RandomizerUtils
 
                     if (memberID == -1)
                     {
-                        UnityEngine.Debug.LogError("Member not found for item " + item.InternalName);
+                        Console.WriteLine("Member not found for item " + item.InternalName);
                         return false;
                     }
                     while (HasLocationBeenCompleted(item.InternalName + current)) current++;
@@ -137,7 +157,7 @@ public static class RandomizerUtils
 
                     if (memberID == -1)
                     {
-                        UnityEngine.Debug.LogError("Member not found for item " + item.InternalName);
+                        Console.WriteLine("Member not found for item " + item.InternalName);
                         return false;
                     }
                     while (HasLocationBeenCompleted(item.InternalName + current)) current++;
@@ -149,7 +169,7 @@ public static class RandomizerUtils
             case RandomizerDatabase.Item.ItemType.Equipment:
             case RandomizerDatabase.Item.ItemType.MechEquipment:
                 {
-                    if (item.ProgressiveCount > 1) // Use progressive
+                    if (RandomizerDatabase.ItemIDs.ContainsKey(item.InternalName)) // Use progressive
                     {
                         int current = 0;
                         while (HasLocationBeenCompleted(item.InternalName + current)) current++;
@@ -159,13 +179,65 @@ public static class RandomizerUtils
                         }
                         catch (Exception e)
                         {
-                            UnityEngine.Debug.LogError("Item was not found " + item.InternalName + " " + current);
+                            Console.WriteLine("Item was not found " + item.InternalName + " " + current);
                             return false;
                         }
                         MarkLocationAsCompleted(item.InternalName + current);
                     }
+                    else
+                    {
+                        Equip equipToGet = null;
+                        foreach (Equip equip in GetDatabase.GetEquipment())
+                        {
+                            if (equip.equipName == item.InternalName)
+                            {
+                                equipToGet = equip;
+                                break;
+                            }
+                        }
+                        if (equipToGet == null)
+                        {
+                            Console.WriteLine("Item was not found " + item.InternalName);
+                            return false;
+                        }
+                        else
+                        {
+                            AddEquipment(equipToGet.equipID, 1, sender);
+                        }
+                    }
                     return true;
                 }
+            case RandomizerDatabase.Item.ItemType.Item:
+                Item itemToGet = null;
+                foreach (Item dbItem in GetDatabase.GetInventory())
+                {
+                    if (dbItem.itemName == item.InternalName)
+                    {
+                        itemToGet = dbItem;
+                        break;
+                    }
+                }
+                if (itemToGet == null)
+                {
+                    Console.WriteLine("Item was not found " + item.InternalName);
+                    return false;
+                }
+                else
+                {
+                    AddItem(itemToGet.itemId, 1, sender);
+                }
+                return true;
+            case RandomizerDatabase.Item.ItemType.ClassEmblem:
+                try
+                {
+                    AddEmblem(RandomizerDatabase.ItemIDs[item.InternalName][0], sender);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Emblem was not found " + item.InternalName);
+                    return false;
+                }
+                return true;
         }
 
         return false;
@@ -217,14 +289,14 @@ public static class RandomizerUtils
 
     private static void LearnSkillInternal(int memberID, int skillID, bool passive)
     {
-        UnityEngine.Debug.Log("Learining internal. Member: " + memberID + " Skill: " + skillID + " IsPassive: " + passive);
         GameFunctions.AddSkill(skillID, memberID, 0, passive ? 1 : 0);
         GameFunctions.ChangeSkillSlot(skillID, EquipFunctions.FindEmptySlot(memberID, passive ? 1 : 0), memberID, passive ? 1 : 0);
+        ResetPartyMemberLevel(memberID);
     }
 
     public static void AddStatBoost(int memberID, int boostOrder, string sender = "")
     {
-        UnityEngine.Debug.Log("Adding stat boost " + boostOrder + " to " + memberID);
+        Console.WriteLine("Adding stat boost " + boostOrder + " to " + memberID);
         string memberName = "????";
         foreach (var member in GetDatabase.GetPartyMember())
         {
@@ -240,10 +312,8 @@ public static class RandomizerUtils
             if (boostDB.user == memberID)
             {
                 index++;
-                UnityEngine.Debug.Log("Boost #" + index + " is " + boostDB.stat);
                 if (index == boostOrder)
                 {
-                    UnityEngine.Debug.Log("Boosting " + boostDB.stat);
                     string message = memberName + " got stronger";
                     if (sender != null && sender != "") message += " thanks to " + sender;
                     RandomizerBehavior.PushMessage(message);
@@ -252,6 +322,8 @@ public static class RandomizerUtils
                 }
             }
         }
+
+        ResetPartyMemberLevel(memberID);
     }
 
     public static void AddPassive(int memberID, int passiveOrder, string sender = "")
