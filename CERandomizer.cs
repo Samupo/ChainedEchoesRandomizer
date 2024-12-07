@@ -6,37 +6,40 @@ using System.IO;
 using System;
 using UnityEngine;
 using BepInEx.Unity.IL2CPP;
-using Rewired;
 
 namespace CERandomizer
 {
-    [BepInPlugin("com.samupo.cerandomizer", "CE Randomizer", "1.0.0")]
+    [BepInPlugin("com.Samupo.CERandomizer", "CE Randomizer", "1.0.0")]
     public class CERandomizer : BasePlugin
     {
         public static CERandomizer Instance { get; private set; }
+        const string OPTIONS_FILE = "RandomizerOptions.txt";
 
         public override void Load()
         {
             // Set instance for global access
             Instance = this;
 
-            // Initialize the GameObject and component only once after the scene loads
-            AddComponent<ActionQuery>();
-            AddComponent<RandomizerBehavior>();
-            Console.WriteLine("Component added");
-
-            if (File.Exists("RandomizerSeed.txt"))
+            if (File.Exists(OPTIONS_FILE))
             {
-                RandomGen.Seed = int.Parse(File.ReadAllText("RandomizerSeed.txt"));
+                RandomizerOptions.Load(OPTIONS_FILE);
             }
             else
             {
-                int seed = (int)DateTime.Now.Ticks;
-                RandomGen.Seed = seed;
-                File.WriteAllText("RandomizerSeed.txt", seed.ToString());
+                RandomizerOptions.Save(OPTIONS_FILE);
             }
+            if (RandomizerOptions.RandomizerSeed == -1)
+            {
+                RandomizerOptions.RandomizerSeed = (int)DateTime.Now.Ticks;
+                RandomizerOptions.Save(OPTIONS_FILE);
+            }
+            RandomGen.Seed = RandomizerOptions.RandomizerSeed;
 
             HarmonyPatches.ApplyPatches();
+
+            // Initialize the GameObject and component only once after the scene loads
+            AddComponent<ActionQueue>();
+            AddComponent<RandomizerBehavior>();
         }
     }
 
@@ -93,26 +96,45 @@ namespace CERandomizer
                 if (RandomizerDatabase.Randomized && GameObject.FindWithTag("SaveData") != null && !randomInitialization)
                 {
                     randomInitialization = true;
+
+                    if (RandomizerOptions.UseArchipelago > 0)
+                    {
+                        Archipelago.Connect();
+                    }
+
                     // Randomize database as needed
-                    if (RandomizerOptions.AddTier1Weapons > 0)
+                    if (RandomGen.Seed != 0)
                     {
-                        CoreRandomizer.AddTier1Weapons();
-                    }
-                    if (RandomizerOptions.RandomizeCharacterEquipment > 0)
-                    {
-                        CoreRandomizer.RandomizeCharacterWeaponTypes();
-                    }
-                    if (RandomizerOptions.RandomizeCharacterSkills > 0)
-                    {
-                        CoreRandomizer.RandomizeCharacterSkills();
-                    }
-                    if (RandomizerOptions.RandomizeCharacterPassives > 0)
-                    {
-                        CoreRandomizer.RandomizeCharacterPassives();
-                    }
-                    if (RandomizerOptions.RandomizeCharacterStatBoosts > 0)
-                    {
-                        CoreRandomizer.RandomizeCharacterStatBoosts();
+                        // Do always
+                        CoreRandomizer.UnlearnAllSkills();
+                        CoreRandomizer.RemoveEquipmentDealRewards();
+                        RandomizerUtils.AddItem(405, 20); // Add 20xSacred Water to initial inventory
+
+                        if (RandomizerOptions.AddTier1Weapons > 0)
+                        {
+                            CoreRandomizer.AddTier1Weapons();
+                        }
+                        if (RandomizerOptions.RandomizeCharacterEquipment > 0)
+                        {
+                            CoreRandomizer.RandomizeCharacterWeaponTypes();
+                        }
+                        if (RandomizerOptions.RandomizeCharacterSkills > 0)
+                        {
+                            CoreRandomizer.RandomizeCharacterSkills();
+                        }
+                        if (RandomizerOptions.RandomizeCharacterPassives > 0)
+                        {
+                            CoreRandomizer.RandomizeCharacterPassives();
+                        }
+                        if (RandomizerOptions.RandomizeCharacterStatProgression > 0)
+                        {
+                            CoreRandomizer.AverageCharacterInitialStats();
+                            CoreRandomizer.RandomizeCharacterStatProgression();
+                        }
+                        if (RandomizerOptions.RandomizeCharacterStatBoosts > 0)
+                        {
+                            CoreRandomizer.RandomizeCharacterStatBoosts();
+                        }
                     }
                 }
 
@@ -132,11 +154,18 @@ namespace CERandomizer
                 messageQueue.Dequeue();
             }
 
+            if (randomInitialization && RandomizerDatabase.Randomized)
+            {
+                foreach (PartyMember member in RandomizerUtils.GetPlayableCharacters(false))
+                {
+                    member.gs = 0.0f;
+                }
+            }
         }
 
         public static void PushMessage(string message)
         {
-            messageQueue.Enqueue(new TimedMessage(message, displayDuration));
+            messageQueue.Enqueue(new TimedMessage(message, displayDuration + 0.1f * messageQueue.Count));
         }
 
         void OnGUI()
