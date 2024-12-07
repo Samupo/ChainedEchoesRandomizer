@@ -35,7 +35,7 @@ namespace CERandomizer
         public static int Tier1GunID { get; private set; } = 48;
         public static int Tier1AmuletID { get; private set; } = 57;
         public static int Tier1GunbladeID { get; private set; } = 69;
-        public static int Tier1CestusID { get; private set; } = 97;
+        public static int Tier1ClawID { get; private set; } = 97;
         public static int Tier1AnchorID { get; private set; } = 105;
         public static int Tier1CardsID { get; private set; } = 114;
 
@@ -46,7 +46,7 @@ namespace CERandomizer
 
         public static void AddTier1Weapons()
         {
-            UnityEngine.Debug.Log("Randomizer - Adding tier 1 weapons...");
+            Console.WriteLine("Randomizer - Adding tier 1 weapons...");
 
             Tier1GunID = GetDatabase.GetEquipment().Count;
             GetDatabase.GetEquipment().Add(new Equip(Tier1GunID, "Pistol", "Basic", 4, 0, 48, 0, 0, 18, 18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "0", "0", 200, 50, 1, "30,37", "3,1", 100, "30,37,58", "3,2,1", 200, 2));
@@ -57,8 +57,8 @@ namespace CERandomizer
             Tier1GunbladeID = GetDatabase.GetEquipment().Count;
             GetDatabase.GetEquipment().Add(new Equip(Tier1GunbladeID, "Prototype Gunblade", "Basic", 6, 0, 69, 0, 0, 18, 18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "0", "0", 200, 50, 1, "30,37", "3,1", 100, "30,37,58", "3,2,1", 200, 2));
             
-            Tier1CestusID = GetDatabase.GetEquipment().Count;
-            GetDatabase.GetEquipment().Add(new Equip(Tier1CestusID, "Nice Gloves", "Basic", 9, 0, 97, 0, 0, 30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "0", "0", 200, 50, 1, "30,37", "3,1", 100, "30,37,58", "3,2,1", 200, 2));
+            Tier1ClawID = GetDatabase.GetEquipment().Count;
+            GetDatabase.GetEquipment().Add(new Equip(Tier1ClawID, "Nice Gloves", "Basic", 9, 0, 97, 0, 0, 30, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "0", "0", 200, 50, 1, "30,37", "3,1", 100, "30,37,58", "3,2,1", 200, 2));
 
             Tier1AnchorID = GetDatabase.GetEquipment().Count;
             GetDatabase.GetEquipment().Add(new Equip(Tier1AnchorID, "Anvil", "Basic", 10, 0, 105, 0, 0, 18, 18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "0", "0", 200, 50, 1, "30,37", "3,1", 100, "30,37,58", "3,2,1", 200, 2));
@@ -69,7 +69,7 @@ namespace CERandomizer
 
         public static void RandomizeCharacterWeaponTypes()
         {
-            UnityEngine.Debug.Log("Randomizer - Randomizing character weapon types...");
+            Console.WriteLine("Randomizer - Randomizing character weapon types...");
 
             // Alter database
             List<int> weaponTypes = new List<int>();
@@ -148,9 +148,120 @@ namespace CERandomizer
             }
         }
 
+        public static void AverageCharacterInitialStats()
+        {
+            Console.WriteLine("Randomizer - Averaging character stats...");
+            foreach (PartyMember member in GetDatabase.GetPartyMember())
+            {
+                if (member.memberID == 13 || member.memberID == 14)
+                {
+                    member.baseHP = (member.currentHP = (member.maxHP = (member.startingHP = 85)));
+                    member.baseTP = (member.currentTP = (member.maxTP = (member.startingTP = 110)));
+                    member.baseAtk = (member.currentAtk = (member.maxAtk = (member.startingAtk = 30)));
+                    member.baseMag = (member.currentMag = (member.maxMag = (member.startingMag = 30)));
+                    member.baseDef = (member.currentDef = (member.maxDef = (member.startingDef = 30)));
+                    member.baseMnd = (member.currentMnd = (member.maxMnd = (member.startingMnd = 30)));
+                    member.baseAgi = (member.currentAgi = (member.maxAgi = (member.startingAgi = 30)));
+                }
+                if (member.memberID <= 12)
+                {
+                    member.baseHP = (member.currentHP = (member.maxHP = (member.startingHP = 75)));
+                    member.baseTP = (member.currentTP = (member.maxTP = (member.startingTP = 100)));
+                    member.baseAtk = (member.currentAtk = (member.maxAtk = (member.startingAtk = 17)));
+                    member.baseMag = (member.currentMag = (member.maxMag = (member.startingMag = 17)));
+                    member.baseDef = (member.currentDef = (member.maxDef = (member.startingDef = 17)));
+                    member.baseMnd = (member.currentMnd = (member.maxMnd = (member.startingMnd = 17)));
+                    member.baseAgi = (member.currentAgi = (member.maxAgi = (member.startingAgi = 17)));
+                }
+            }
+        }
+
+        public static void RandomizeCharacterStatProgression()
+        {
+            Console.WriteLine("Randomizer - Randomizing character stat progression...");
+            List<string> availableStats = new List<string>();
+            availableStats.Add("Health Points");
+            availableStats.Add("Tech Points");
+            availableStats.Add("Attack");
+            availableStats.Add("Magic");
+            availableStats.Add("Defense");
+            availableStats.Add("Mind");
+            availableStats.Add("Agility");
+            availableStats.Add("Critical %");
+            int memberID;
+            for (memberID = 0; memberID < 13; memberID++)
+            {
+                List<CharacterStatBooster> list2 = new List<CharacterStatBooster>();
+                List<string> shuffledList = new List<string>(availableStats).OrderBy((s)=>RandomGen.Range(-10000,10000)).ToList();
+                PartyMember member = null;
+                foreach (PartyMember dbMember in GetDatabase.GetPartyMember())
+                {
+                    if (dbMember.memberID == memberID)
+                    {
+                        member = dbMember;
+                    }
+                }
+                if (member == null) continue;
+
+                List<string> shuffledRanks = new List<string>();
+                for (int i = 0; i < RandomizerOptions.CharacterSRankStats; i++)
+                {
+                    shuffledRanks.Add("S");
+                }
+                for (int j = 0; j < RandomizerOptions.CharacterARankStats; j++)
+                {
+                    shuffledRanks.Add("A");
+                }
+                for (int k = 0; k < RandomizerOptions.CharacterBRankStats; k++)
+                {
+                    shuffledRanks.Add("B");
+                }
+                for (int l = 0; l < RandomizerOptions.CharacterCRankStats; l++)
+                {
+                    shuffledRanks.Add("C");
+                }
+                while (shuffledRanks.Count < shuffledList.Count)
+                {
+                    shuffledRanks.Add("A");
+                }
+                shuffledRanks = shuffledRanks.OrderBy((string g) => RandomGen.Range(-10000, 10000)).ToList();
+                for (int n = 0; n < shuffledList.Count; n++)
+                {
+                    switch (shuffledList[n])
+                    {
+                        case "Health Points":
+                            member.UPHP = shuffledRanks[0];
+                            break;
+                        case "Tech Points":
+                            member.UPTP = shuffledRanks[0];
+                            break;
+                        case "Attack":
+                            member.UPAtk = shuffledRanks[0];
+                            break;
+                        case "Magic":
+                            member.UPMag = shuffledRanks[0];
+                            break;
+                        case "Defense":
+                            member.UPDef = shuffledRanks[0];
+                            break;
+                        case "Mind":
+                            member.UPMnd = shuffledRanks[0];
+                            break;
+                        case "Agility":
+                            member.UPAgi = shuffledRanks[0];
+                            break;
+                        case "Critical %":
+                            member.UPCrit = shuffledRanks[0];
+                            break;
+                    }
+                    shuffledRanks.RemoveAt(0);
+                }
+            }
+        }
+
         public static void RandomizeCharacterStatBoosts()
         {
-            UnityEngine.Debug.Log("Randomizer - Randomizing character stat boosts...");
+            Console.WriteLine("Randomizer - Randomizing character stat boosts...");
             List<string> list = new List<string>();
             list.Add("Health Points");
             list.Add("Tech Points");
@@ -289,7 +400,7 @@ namespace CERandomizer
 
         public static void RandomizeCharacterSkills()
         {
-            UnityEngine.Debug.Log("Randomizer - Randomizing character skills...");
+            Console.WriteLine("Randomizer - Randomizing character skills...");
             List<Skill> list = new List<Skill>();
             list.AddRange(GetDatabase.GetSkills().ToArray());
             list = (from s in list
@@ -323,7 +434,7 @@ namespace CERandomizer
 
         public static void RandomizeCharacterPassives()
         {
-            UnityEngine.Debug.Log("Randomizer - Randomizing character passives...");
+            Console.WriteLine("Randomizer - Randomizing character passives...");
             List<int> list = new List<int>();
             for (int i = 0; i < 199; i++)
             {
@@ -341,6 +452,18 @@ namespace CERandomizer
                 list2.RemoveRange(16, list2.Count - 16);
                 member.learnablePassives = list2.ToArray();
                 member.passives.Clear();
+            }
+        }
+
+        public static void RemoveEquipmentDealRewards()
+        {
+            foreach (BazaarItem item in GetDatabase.GetBazaarGoods())
+            {
+                item.resultEquip = new Il2CppInterop.Runtime.InteropTypes.Arrays.Il2CppStructArray<int>(new int[] { });
+            }
+            foreach (BazaarItem item in GetData.GetBazaarItems())
+            {
+                item.resultEquip = new Il2CppInterop.Runtime.InteropTypes.Arrays.Il2CppStructArray<int>(new int[] { });
             }
         }
     }
