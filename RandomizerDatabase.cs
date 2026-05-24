@@ -18,7 +18,7 @@ namespace CERandomizer
             { "Amulet", new List<int>{ 57, 58, 59, 60, 61, 62, 63, 64  } }, // Tier 3 to 10
             { "Gunspear", new List<int>{ 69, 70, 71, 72} }, // Tier 7 to 10
             { "Katana", new List<int>{ 77, 78, 79, 80, 81, 82, 83, 84, 85 } }, // Tier 2 to 10
-            { "Greatsword", new List<int>{ 89, 90, 91, 92, 93, 94} }, // Tiers 1-3 and 8-10
+            { "Greatsword", new List<int>{ 89, 90, 91, 92, 93, 94} }, // Tiers 2-4 and 8-10
             { "Anchor", new List<int>{ 105, 106, 107, 108, 109, 110, 111} }, // Tiers 4 to 10
             { "Claw", new List<int>{ 97, 98, 99, 100, 101 } }, // Tiers 6 to 10
             { "Cards", new List<int>{ 114, 115, 116 } }, // Tiers 8 to 10
@@ -154,6 +154,7 @@ namespace CERandomizer
             }
         }
 
+        public const long AP_LOCATION_ID_START = 8501000;
         public const string LOCATIONS_FILE = "LocationsDB.txt";
         public const string ITEMS_FILE = "ItemsDB.txt";
         public static List<Location> locations = new List<Location>();
@@ -178,7 +179,7 @@ namespace CERandomizer
                     if (data.Length < 4) continue;
 
                     Enum.TryParse(data[0], out Location.LocationType locationType);
-                    var location = new Location(locationID, data[1], data[2], data[3] == "Missable", locationType);
+                    var location = new Location(AP_LOCATION_ID_START + locationID, data[1], data[2], data[3] == "Missable", locationType);
                     locationID++;
 
                     if (glennStatBoostRequirement > 0)

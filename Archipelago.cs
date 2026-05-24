@@ -6,7 +6,6 @@ using Archipelago.MultiClient.Net.Packets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CERandomizer
@@ -18,23 +17,95 @@ namespace CERandomizer
         public const string ITEM_DATA_PREFIX = "ARCHIPELAGO_ITEM_";
 
         public static bool Connected { get; private set; }
+        public static bool ConnectionAttempted { get; private set; }
+        public static bool ShouldRestartForNewSlot { get; private set; }
+        public static string Status { get; private set; } = "Not connected.";
 
         static ArchipelagoSession session;
 
-        public static void Connect()
+        public static void SetStatus(string status)
         {
-            session = ArchipelagoSessionFactory.CreateSession(RandomizerOptions.ArchipelagoServer);
-            LoginResult result = session.TryConnectAndLogin(GAME_NAME, RandomizerOptions.ArchipelagoUsername, ItemsHandlingFlags.AllItems,
-                password:RandomizerOptions.ArchipelagoPassword == "" ? null : RandomizerOptions.ArchipelagoPassword);
-            Connected = result.Successful;
-            session.Items.ItemReceived += ReceiveItem;
+            Status = status;
+        }
 
-            // Scout all locations
-            session.Locations.ScoutLocationsAsync(session.Locations.AllLocations.ToArray());
+        public static bool Connect(string server, int port, string username, string password, string optionsPath)
+        {
+            if (Connected)
+            {
+                Status = "Connected.";
+                return true;
+            }
+
+            ConnectionAttempted = true;
+            ShouldRestartForNewSlot = false;
+            RandomizerOptions.SetConnectionSettings(server, port, username, password);
+            Status = "Connecting to " + RandomizerOptions.ConnectionAddress + "...";
+
+            try
+            {
+                session = ArchipelagoSessionFactory.CreateSession(RandomizerOptions.ConnectionAddress);
+                LoginResult result = session.TryConnectAndLogin(GAME_NAME, RandomizerOptions.ArchipelagoUsername, ItemsHandlingFlags.AllItems,
+                    password: RandomizerOptions.ArchipelagoPassword == "" ? null : RandomizerOptions.ArchipelagoPassword);
+
+                Connected = result.Successful;
+                if (!Connected)
+                {
+                    Status = "Archipelago login failed.";
+                    Console.WriteLine(Status);
+                    return false;
+                }
+
+                LoginSuccessful loginSuccessful = result as LoginSuccessful;
+                if (loginSuccessful == null)
+                {
+                    Connected = false;
+                    Status = "Archipelago login did not return slot data.";
+                    Console.WriteLine(Status);
+                    return false;
+                }
+
+                List<string> missingSlotData = RandomizerOptions.GetMissingSlotDataOptionNames(loginSuccessful.SlotData);
+                if (missingSlotData.Count > 0)
+                {
+                    Connected = false;
+                    Status = "AP slot data is missing Randomizer options: " + string.Join(", ", missingSlotData.ToArray());
+                    Console.WriteLine(Status);
+                    return false;
+                }
+
+                bool connectionChanged = RandomizerOptions.CurrentConnectionDiffersFromLoaded();
+                RandomizerOptions.LoadArchipelagoSlotData(loginSuccessful.SlotData);
+                RandomGen.Seed = RandomizerOptions.RandomizerSeed;
+                RandomizerOptions.Save(optionsPath);
+                ShouldRestartForNewSlot = connectionChanged;
+
+                session.Items.ItemReceived += ReceiveItem;
+
+                // Scout all locations
+                session.Locations.ScoutLocationsAsync(session.Locations.AllLocations.ToArray());
+
+                Status = ShouldRestartForNewSlot
+                    ? "Connected. New server or slot detected; the game will close soon."
+                    : "Connected. Options and seed loaded from Archipelago.";
+                Console.WriteLine(Status);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Connected = false;
+                Status = "Archipelago connection failed: " + ex.Message;
+                Console.WriteLine(Status);
+                return false;
+            }
         }
 
         public static void GetAllItems()
         {
+            if (!Connected)
+            {
+                return;
+            }
+
             foreach (ItemInfo item in session.Items.AllItemsReceived)
             {
                 GetItem(item.ItemName, item.ItemId, item.Player.Name);

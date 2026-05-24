@@ -97,32 +97,9 @@ namespace CERandomizer
             RandomizerDatabase.Location location = RandomizerDatabase.locations.Find(location => location.InternalName == locationName);
             itemGotten = null;
 
-            if (RandomizerOptions.UseArchipelago > 0)
-            {
-                GetData.GetChests().Add(Archipelago.LOCATION_DATA_PREFIX + location.ID);
-                Archipelago.MarkLocationAsChecked(location.ID);
-                return true;
-            }
-            else
-            {
-                if (location != null)
-                {
-                    if (location.AssignedItem == null) return false; // Can't find associated item
-                    if (RandomizerUtils.HasLocationBeenCompleted(locationName)) return true; // Location already checked, true to skip
-                    if (RandomizerUtils.UnlockItem(location.AssignedItem))
-                    {
-                        itemGotten = location.AssignedItem;
-                        RandomizerUtils.MarkLocationAsCompleted(locationName);
-                        return true; // Item found and unlocked
-                    }
-                    else
-                    {
-                        // TODO: Go through unassigned items and unlock one at random
-                        return false; // Could not spawn an item for location
-                    }
-                }
-            }
-            return false; // Can't find location
+            GetData.GetChests().Add(Archipelago.LOCATION_DATA_PREFIX + location.ID);
+            Archipelago.MarkLocationAsChecked(location.ID);
+            return true;
         }
 
         public static void OptimizeAfterJoiningParty(int id, int slot)
