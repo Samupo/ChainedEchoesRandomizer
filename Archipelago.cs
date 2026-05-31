@@ -108,7 +108,14 @@ namespace CERandomizer
 
             foreach (ItemInfo item in session.Items.AllItemsReceived)
             {
-                GetItem(item.ItemName, item.ItemId, item.Player.Name);
+                try
+                {
+                    GetItem(item.ItemName, item.ItemId, item.Player.Name);
+                }
+                catch (Exception e)
+                {
+                    CERandomizer.Instance.Log.LogError("Error processing item: " + item.ItemName);
+                }
             }
         }
 
