@@ -1,4 +1,4 @@
-﻿using BepInEx;
+using BepInEx;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using System.Collections.Generic;
@@ -155,14 +155,29 @@ namespace CERandomizer
                     {
                         CoreRandomizer.RandomizeCharacterPassives();
                     }
-                    if (RandomizerOptions.RandomizeCharacterStatProgression > 0)
+                    if (RandomizerOptions.RandomizeCharacterInitialStats > 0)
                     {
                         CoreRandomizer.AverageCharacterInitialStats();
+                    }
+                    if (RandomizerOptions.RandomizeCharacterStatProgression > 0)
+                    {
                         CoreRandomizer.RandomizeCharacterStatProgression();
                     }
                     if (RandomizerOptions.RandomizeCharacterStatBoosts > 0)
                     {
                         CoreRandomizer.RandomizeCharacterStatBoosts();
+                    }
+                    if (RandomizerOptions.RandomizeMechSkills > 0)
+                    {
+                        MechRandomizer.RandomizeMechSkills();
+                    }
+                    if (RandomizerOptions.RandomizeMechStatBoosts > 0)
+                    {
+                        MechRandomizer.RandomizeMechStatBoosts();
+                    }
+                    if (RandomizerOptions.RandomizeEmblemStats > 0 || RandomizerOptions.RandomizeEmblemSkills > 0 || RandomizerOptions.RandomizeEmblemPassives > 0)
+                    {
+                        EmblemRandomizer.RandomizeEmblems();
                     }
                 }
 
