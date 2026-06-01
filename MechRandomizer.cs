@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 
@@ -15,23 +14,26 @@ namespace CERandomizer
         {
             Console.WriteLine("Randomizer - Randomizing mech stat boosts...");
 
-            Dictionary<string, int> statValues = new Dictionary<string, int>
+            List<KeyValuePair<string, int>> statValues = new List<KeyValuePair<string, int>>
             {
-                { "Health Points", 100 },
-                { "Tech Points", 10 },
-                { "Attack", 20 },
-                { "Magic", 20 },
-                { "Defense", 20 },
-                { "Mind", 20 },
-                { "Critical %", 5 },
-                { "Agility", 5 }
+                new KeyValuePair<string, int>("Health Points", 100),
+                new KeyValuePair<string, int>("Tech Points", 10),
+                new KeyValuePair<string, int>("Attack", 20),
+                new KeyValuePair<string, int>("Magic", 20),
+                new KeyValuePair<string, int>("Defense", 20),
+                new KeyValuePair<string, int>("Mind", 20),
+                new KeyValuePair<string, int>("Critical %", 5),
+                new KeyValuePair<string, int>("Agility", 5)
             };
 
-            foreach (StatBoost statBoost in GetDatabase.GetStatBoosts().Where(s => s.mechs))
+            foreach (StatBoost statBoost in GetDatabase.GetStatBoosts())
             {
-                KeyValuePair<string, int> selectedStat = statValues
-                    .OrderBy(_ => RandomGen.Range(-10000, 10000))
-                    .First();
+                if (!statBoost.mechs)
+                {
+                    continue;
+                }
+
+                KeyValuePair<string, int> selectedStat = statValues[RandomGen.Range(0, statValues.Count)];
 
                 statBoost.value = selectedStat.Value;
                 statBoost.stat = selectedStat.Key;
@@ -44,10 +46,17 @@ namespace CERandomizer
 
             mechSkillLinkage.Clear();
 
-            List<Skill> mechSkills = GetDatabase.GetSkills()
-                .Where(s => s.skillUser >= 100)
-                .ToList();
-            List<int> randomizedSkillIds = mechSkills.Select(s => s.skillID).ToList();
+            List<Skill> mechSkills = new List<Skill>();
+            List<int> randomizedSkillIds = new List<int>();
+
+            foreach (Skill skill in GetDatabase.GetSkills())
+            {
+                if (skill.skillUser >= 100)
+                {
+                    mechSkills.Add(skill);
+                    randomizedSkillIds.Add(skill.skillID);
+                }
+            }
 
             foreach (Skill skill in mechSkills)
             {
@@ -94,7 +103,7 @@ namespace CERandomizer
             int profession = equip.equipType - 17;
             int professionLevel = GameFunctions.ReturnProfLevel(user, profession);
             List<SkillItem> randomizedSkills = GetRandomizedMechProfessionSkills(profession, user);
-            List<SkillItem> learnedSkills = GetData.GetSkills();
+            var learnedSkills = GetData.GetSkills();
 
             foreach (SkillItem skillItem in randomizedSkills)
             {
@@ -118,7 +127,7 @@ namespace CERandomizer
             int profession = equip.equipType - 17;
             int professionLevel = GameFunctions.ReturnProfLevel(user, profession);
             List<SkillItem> randomizedSkills = GetRandomizedMechProfessionSkills(profession, user);
-            List<SkillItem> learnedSkills = GetData.GetSkills();
+            var learnedSkills = GetData.GetSkills();
 
             if (previousOwner != -1)
             {
@@ -149,8 +158,16 @@ namespace CERandomizer
                 return true;
             }
 
-            __result = GetDatabase.GetSkills().Find(s => s.skillID == randomizedSkillId);
-            return false;
+            foreach (Skill skill in GetDatabase.GetSkills())
+            {
+                if (skill.skillID == randomizedSkillId)
+                {
+                    __result = skill;
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         private static List<SkillItem> GetRandomizedMechProfessionSkills(int profession, int user)

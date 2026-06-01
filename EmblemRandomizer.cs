@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace CERandomizer
 {
@@ -10,10 +9,15 @@ namespace CERandomizer
         {
             Console.WriteLine("Randomizer - Randomizing emblems...");
 
-            List<Skill> availableSkills = GetDatabase.GetSkills()
-                .Where(s => s.skillName != "??" && s.skillName != "XXX")
-                .OrderBy(_ => RandomGen.Range(-10000, 1000))
-                .ToList();
+            List<Skill> availableSkills = new List<Skill>();
+            foreach (Skill skill in GetDatabase.GetSkills())
+            {
+                if (skill.skillName != "??" && skill.skillName != "XXX")
+                {
+                    availableSkills.Add(skill);
+                }
+            }
+            ShuffleList(availableSkills);
 
             List<int> availablePassives = new List<int>();
             for (int i = 9; i < 199; i++)
@@ -23,11 +27,11 @@ namespace CERandomizer
                     availablePassives.Add(i);
                 }
             }
-            availablePassives = availablePassives.OrderBy(_ => RandomGen.Range(-10000, 10000)).ToList();
+            ShuffleList(availablePassives);
 
             foreach (ClassEmblem classEmblem in GetDatabase.GetClassEmblems())
             {
-                if (RandomizerOptions.RandomizeEmblemSkills > 0)
+                if (RandomizerOptions.RandomizeEmblemSkills > 0 && availableSkills.Count >= 2)
                 {
                     classEmblem.classAction1 = availableSkills[0].skillID;
                     availableSkills.RemoveAt(0);
@@ -35,7 +39,7 @@ namespace CERandomizer
                     availableSkills.RemoveAt(0);
                 }
 
-                if (RandomizerOptions.RandomizeEmblemPassives > 0)
+                if (RandomizerOptions.RandomizeEmblemPassives > 0 && availablePassives.Count >= 2)
                 {
                     classEmblem.classPassive1 = availablePassives[0];
                     availablePassives.RemoveAt(0);
@@ -47,6 +51,17 @@ namespace CERandomizer
                 {
                     RandomizeEmblemStats(classEmblem);
                 }
+            }
+        }
+
+        private static void ShuffleList<T>(List<T> list)
+        {
+            for (int i = list.Count - 1; i > 0; i--)
+            {
+                int swapIndex = RandomGen.Range(0, i + 1);
+                T temp = list[i];
+                list[i] = list[swapIndex];
+                list[swapIndex] = temp;
             }
         }
 
