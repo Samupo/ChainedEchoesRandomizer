@@ -1,4 +1,0 @@
-ArchipelagoServer=localhost
-ArchipelagoPort=38281
-ArchipelagoUsername=Player
-ArchipelagoPassword=
